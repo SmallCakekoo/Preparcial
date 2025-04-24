@@ -3,7 +3,7 @@ import { Products } from "../types/ProductsTypes";
 async function getInfoApiProducts(): Promise<Products[]> {
   try {
     const response = await fetch(
-      "https://11ec-200-3-193-225.ngrok-free.app/dca/kevin/products?studentName=A00404448",
+      "https://8eb0-200-3-193-225.ngrok-free.app/dca/kevin/products?studentName=A00404448",
       {
         method: "GET",
         headers: {

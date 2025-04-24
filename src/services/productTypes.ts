@@ -2,7 +2,13 @@ import { ProductType } from "../types/ProductsTypes";
 export const getProductTypes = async (): Promise<ProductType[]> => {
   try {
     const response = await fetch(
-      "https://11ec-200-3-193-225.ngrok-free.app/dca/kevin/types"
+      "https://8eb0-200-3-193-225.ngrok-free.app/dca/kevin/types",
+      {
+        method: "GET",
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
+      }
     );
     if (!response.ok) {
       throw new Error("Error al obtener los tipos de productos");

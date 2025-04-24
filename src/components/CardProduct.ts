@@ -10,8 +10,13 @@ class CardProduct extends HTMLElement {
   }
 
   async connectedCallback() {
-    this.productTypes = await getProductTypes();
-    this.render();
+    try {
+      this.productTypes = await getProductTypes();
+      console.log("Tipos de productos cargados:", this.productTypes);
+      this.render();
+    } catch (error) {
+      console.error("Error al cargar tipos de productos:", error);
+    }
   }
 
   render() {
@@ -23,7 +28,29 @@ class CardProduct extends HTMLElement {
     const quantity = this.getAttribute("quantity") || "Sin stock";
     const typeId = parseInt(this.getAttribute("typeId") || "0");
 
-    const productType = this.productTypes.find((type) => type.id === typeId);
+    let productTypeName = "Sin tipo";
+
+    switch (typeId) {
+      case 1:
+        productTypeName = "Electrónica";
+        break;
+      case 2:
+        productTypeName = "Ropa";
+        break;
+      case 3:
+        productTypeName = "Hogar";
+        break;
+      case 4:
+        productTypeName = "Deportes";
+        break;
+      case 5:
+        productTypeName = "Juguetes";
+        break;
+      default:
+        productTypeName = "Otro";
+    }
+
+    console.log("Renderizando producto:", { product, typeId, productTypeName });
 
     this.shadowRoot!.innerHTML = `
       <style>
@@ -33,10 +60,13 @@ class CardProduct extends HTMLElement {
           padding: 16px;
           margin: 16px;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          width: 300px;
+          background-color: white;
         }
         img {
           width: 100%;
-          height: auto;
+          height: 200px;
+          object-fit: cover;
           border-radius: 4px;
         }
         .price {
@@ -55,14 +85,18 @@ class CardProduct extends HTMLElement {
           margin-top: 8px;
           font-size: 0.9em;
         }
+        .description {
+          color: #666;
+          margin: 8px 0;
+        }
       </style>
       <div class="card">
         <img src="${image}" alt="${product}" />
         <h2>${product}</h2>
-        <p>${description}</p>
-        <p class="price">${price}</p>
+        <p class="description">${description}</p>
+        <p class="price">$${price}</p>
         <p class="quantity">Disponibles: ${quantity}</p>
-        ${productType ? `<span class="type">${productType.type}</span>` : ""}
+        <span class="type">${productTypeName}</span>
       </div>
     `;
   }

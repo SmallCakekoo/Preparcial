@@ -12,6 +12,7 @@ class CardContainer extends HTMLElement {
   async connectedCallback() {
     try {
       this.products = await getInfoApiProducts();
+      console.log("Productos cargados:", this.products);
       this.render();
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -27,17 +28,20 @@ class CardContainer extends HTMLElement {
             flex-wrap: wrap;
             gap: 16px;
             justify-content: center;
+            padding: 20px;
           }
         </style>
         
         <div class="container">
           ${this.products
             .map((product) => {
+              console.log("Procesando producto:", product);
               const image = product.image || "https://placehold.co/100x100.png";
               const name = product.product || "Producto desconocido";
               const description = product.description || "Sin descripción";
               const price = product.price ?? "Sin precio";
               const quantity = product.quantity ?? "Sin stock";
+              const typeId = product.type?.[0]?.typeId || 0;
 
               return `
                 <card-product 
@@ -45,7 +49,8 @@ class CardContainer extends HTMLElement {
                   product="${name}"
                   description="${description}"
                   price="${price}"
-                  quantity="${quantity}">
+                  quantity="${quantity}"
+                  typeId="${typeId}">
                 </card-product>
               `;
             })
