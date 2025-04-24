@@ -1,3 +1,3 @@
-import "./components/Root/Root";
+import CardContainer from "./components/CardProduct";
 
-customElements.define("my-custom-element", class extends HTMLElement {});
+customElements.define("card-container", CardContainer);
